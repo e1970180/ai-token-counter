@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+.venv
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+
+# VS Code
+.vscode/
+
+# Installer
+*.egg-info/
+.installed.cfg
+
+# OS
+.DS_Store
+Thumbs.db
