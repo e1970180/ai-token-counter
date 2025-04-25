@@ -9,7 +9,7 @@ This module defines argument options and provides a parser for use in __main__.
 
 import argparse
 import sys
-from typing import Namespace
+from argparse import Namespace
 
 
 def parse_arguments() -> Namespace:
