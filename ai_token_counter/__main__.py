@@ -9,16 +9,26 @@ Purpose:
 
 import sys
 
-from .cli import parse_arguments
-from .counter import count_tokens
+from ai_token_counter.cli import parse_arguments
+from ai_token_counter.counter import count_tokens
 
 
 def main() -> None:
     """
-    Main entry point: parse arguments, perform token count, and output result or error.
+    Execute the token counting flow with targeted exception handling.
 
-    Side effects:
-        Writes to stdout or stderr, exits on error.
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            None: unexpected exceptions will propagate and display a full traceback.
+
+        Side effects:
+            Prints the token count to stdout on success, or an error message to stderr
+            with exit code 1 on known failures.
     """
     args = parse_arguments()
     try:
@@ -27,10 +37,13 @@ def main() -> None:
             model_alias=args.model,
             encoding_name=args.encoding,
         )
-        print(count)
-    except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
+    except (ValueError, FileNotFoundError, UnicodeError, IOError, TypeError) as err:
+        # Handle only anticipated error types and exit cleanly
+        print(f"Error: {err}", file=sys.stderr)
         sys.exit(1)
+    else:
+        # On success, output only the token count
+        print(count)
 
 
 if __name__ == "__main__":
