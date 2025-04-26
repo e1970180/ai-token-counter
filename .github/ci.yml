@@ -1,0 +1,47 @@
+# GitHub Actions workflow for continuous integration
+# Performs dependency installation, formatting check, static analysis and tests
+
+name: Continuous Integration
+
+# Триггеры: push и pull_request по ветке main
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    # Запуск на Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      # Клонирование репозитория
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Установка Python 3.10
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      # Установка зависимостей из requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Проверка форматирования Black
+      - name: Check formatting with Black
+        run: black --check .
+
+      # Статический анализ Pylint
+      - name: Static analysis with Pylint
+        run: pylint ai_token_counter
+
+      # Запуск тестов Pytest
+      - name: Run tests with Pytest
+        run: pytest
