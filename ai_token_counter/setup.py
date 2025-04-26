@@ -1,4 +1,10 @@
-# setup.py
+"""
+Setup script for ai-token-counter package.
+
+Purpose:
+    Configures installation, dependencies and console entry point.
+"""
+
 from setuptools import setup, find_packages
 
 setup(

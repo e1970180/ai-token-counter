@@ -3,12 +3,12 @@ ignore=tests
 
 [FORMAT]
 # Максимальная длина строки (PEP8 рекомендует 79, black использует 88)
-max-line-length=88
+max-line-length=95 #мой выбор 95
 
 [MESSAGES CONTROL]
 # Отключить сообщения, неважные на данном этапе разработки
 disable=
-    C0330,  # bad-continuation
+    #C0330,  # bad-continuation
     R0903,  # too-few-public-methods
 
 [REPORTS]
