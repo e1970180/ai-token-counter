@@ -19,8 +19,7 @@ from ai_token_counter.tokenizer_config import TOKENIZER_CONFIG
 
 
 def merge_configs(
-    default: Mapping[str, str],
-    user: Optional[Mapping[str, str]]
+    default: Mapping[str, str], user: Optional[Mapping[str, str]]
 ) -> dict[str, str]:
     """
     Merge default tokenizer config with user-provided overrides.
@@ -49,7 +48,7 @@ def merge_configs(
 def resolve_encoding_name(
     model_alias: Optional[str] = None,
     encoding_name: Optional[str] = None,
-    user_config: Optional[Mapping[str, str]] = None
+    user_config: Optional[Mapping[str, str]] = None,
 ) -> str:
     """
     Determine the tiktoken encoding name based on model alias or explicit encoding.
@@ -89,9 +88,7 @@ def resolve_encoding_name(
         raise ValueError(f"Unknown model alias: {model_alias}") from e
 
 
-def get_tiktoken_encoder(
-    encoding_name: str
-) -> Encoding:
+def get_tiktoken_encoder(encoding_name: str) -> Encoding:
     """
     Retrieve a tiktoken Encoding instance for the given encoding name.
 
