@@ -9,16 +9,34 @@ Delegates argument parsing and token counting to cli and counter modules.
 
 import sys
 
-from .cli import parse_arguments
-from .counter import count_tokens
+from ai_token_counter.cli import parse_arguments
+from ai_token_counter.counter import count_tokens
 
 
 def main() -> None:
     """
-    Main entry point: parse CLI arguments, perform token count, and output result or error.
+    Execute the token counting flow with targeted error handling.
+
+    Purpose:
+        Parse command-line arguments, delegate to the core `count_tokens` API,
+        and output the token count or an error message.
+
+    Args:
+        None
+
+    Returns:
+        None
+
+    Raises:
+        (none — unhandled exceptions will propagate)
 
     Side effects:
-        Writes to stdout or stderr, exits on error.
+        Prints to stdout or stderr and exits the process.
+
+    Assumptions:
+        `parse_arguments()` returns valid attributes: file, model, encoding.
+        `count_tokens()` may raise ValueError, FileNotFoundError,
+        UnicodeError, IOError, TypeError.
     """
     args = parse_arguments()
     try:
@@ -27,10 +45,13 @@ def main() -> None:
             model_alias=args.model,
             encoding_name=args.encoding,
         )
-        print(count)
-    except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
+    except (ValueError, FileNotFoundError, UnicodeError, IOError, TypeError) as err:
+        # Handle only expected failures with a clean exit code
+        print(f"Error: {err}", file=sys.stderr)
         sys.exit(1)
+
+    # Successful execution
+    print(count)
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ Purpose:
 from typing import Mapping, Optional
 
 import tiktoken
-from .tokenizer_config import TOKENIZER_CONFIG
+from ai_token_counter.tokenizer_config import TOKENIZER_CONFIG
 
 
 def resolve_encoding_name(
