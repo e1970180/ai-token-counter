@@ -1,11 +1,11 @@
-'''
+"""
 Module: file_utils.py
 
 Purpose:
     Read all text content from a given source: file path, standard input, or IO object.
 
 Provides a unified interface for CLI and API consumers to load input text.
-'''
+"""
 
 import sys
 from pathlib import Path
@@ -35,14 +35,14 @@ def read_source(source: Union[str, Path, TextIO]) -> str:
     # Handle file path or stdin indicator
     if isinstance(source, (str, Path)):
         src = str(source)
-        if src == '-':
+        if src == "-":
             # Read from standard input
             return sys.stdin.read()
         # Read from file system
         path = Path(src)
         try:
             # Read text in UTF-8
-            return path.read_text(encoding='utf-8')
+            return path.read_text(encoding="utf-8")
         except FileNotFoundError:
             raise
         except UnicodeDecodeError:
@@ -52,7 +52,7 @@ def read_source(source: Union[str, Path, TextIO]) -> str:
             raise IOError(f"Error reading file '{src}': {e}")
 
     # Handle file-like object
-    if hasattr(source, 'read'):
+    if hasattr(source, "read"):
         try:
             return source.read()
         except Exception as e:

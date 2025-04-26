@@ -20,7 +20,7 @@ def count_tokens(
     source: Union[str, Path, sys.stdin.__class__],
     model_alias: Optional[str] = None,
     encoding_name: Optional[str] = None,
-    config: Optional[Mapping[str, str]] = None
+    config: Optional[Mapping[str, str]] = None,
 ) -> Tuple[int, str]:
     """
     Count tokens in the given text source using the specified model alias or encoding.
@@ -55,7 +55,9 @@ def count_tokens(
     text = read_source(source)
 
     # Определение имени кодировки
-    encoding = resolve_encoding_name(model_alias=model_alias, encoding_name=encoding_name, user_config=config)
+    encoding = resolve_encoding_name(
+        model_alias=model_alias, encoding_name=encoding_name, user_config=config
+    )
 
     # Подсчёт токенов и возврат результата
     token_count = count_tokens_tiktoken(text=text, encoding_name=encoding)

@@ -7,11 +7,7 @@ setup(
     description="A token counter utility",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=[
-        "pytest",
-        "black",
-        "pylint"
-    ],
+    install_requires=["pytest", "black", "pylint"],
     entry_points={
         "console_scripts": [
             "ai-token-counter = ai_token_counter.__main__:main",

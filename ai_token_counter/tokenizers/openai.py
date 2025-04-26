@@ -18,10 +18,7 @@ import tiktoken
 from tiktoken import Encoding
 
 
-def count_tokens_tiktoken(
-    text: str,
-    encoding_name: str
-) -> int:
+def count_tokens_tiktoken(text: str, encoding_name: str) -> int:
     """
     Count the number of tokens in a text using a tiktoken encoding.
 
@@ -51,4 +48,3 @@ def count_tokens_tiktoken(
     # Закодировать текст в список идентификаторов токенов
     token_ids: list[int] = encoder.encode(text)
     return len(token_ids)
-	

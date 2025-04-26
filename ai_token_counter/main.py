@@ -1,11 +1,11 @@
-'''
+"""
 Module: __main__.py
 
 Purpose:
     Package entry point for ai_token_counter, enabling `python -m ai_token_counter` execution.
 
 Delegates argument parsing and token counting to cli and counter modules.
-'''
+"""
 
 import sys
 

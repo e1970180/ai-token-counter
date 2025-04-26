@@ -1,10 +1,10 @@
-'''
+"""
 Module: tokenizer_factory.py
 
 Purpose:
     Resolve model alias or encoding name into a tiktoken encoding instance.
     Allows merging default and user-provided mappings.
-'''
+"""
 
 from typing import Mapping, Optional
 

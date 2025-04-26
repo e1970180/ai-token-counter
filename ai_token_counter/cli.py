@@ -1,11 +1,11 @@
-'''
+"""
 Module: cli.py
 
 Purpose:
     Parse command-line arguments for ai-token-counter CLI.
 
 This module defines argument options and provides a parser for use in __main__.
-'''
+"""
 
 import argparse
 import sys
@@ -24,22 +24,24 @@ def parse_arguments() -> Namespace:
     """
     parser = argparse.ArgumentParser(
         prog="ai-token-counter",
-        description="Count tokens in text using tiktoken encodings for various AI models."
+        description="Count tokens in text using tiktoken encodings for various AI models.",
     )
     parser.add_argument(
-        '-f', '--file',
+        "-f",
+        "--file",
         required=True,
-        help="Path to input text file or '-' to read from stdin."
+        help="Path to input text file or '-' to read from stdin.",
     )
     parser.add_argument(
-        '-m', '--model',
+        "-m",
+        "--model",
         required=False,
-        help="AI model alias (e.g., gpt-3.5-turbo). Case-insensitive."
+        help="AI model alias (e.g., gpt-3.5-turbo). Case-insensitive.",
     )
     parser.add_argument(
-        '--encoding',
+        "--encoding",
         required=False,
-        help="Explicit tiktoken encoding name (overrides model alias mapping)."
+        help="Explicit tiktoken encoding name (overrides model alias mapping).",
     )
     args = parser.parse_args()
 
