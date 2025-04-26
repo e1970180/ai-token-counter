@@ -1,87 +1,124 @@
 """
-Module: tokenizer_factory.py
+ai_token_counter.tokenizer_factory module.
 
 Purpose:
-    Resolve model alias or encoding name into a tiktoken encoding instance.
-    Allows merging default and user-provided mappings.
+    Resolve tiktoken encoding names from model aliases or explicit encoding names,
+    and provide factory functions for tiktoken encoders.
+
+Dependencies:
+    tiktoken
+    typing.Mapping, typing.Optional
+    ai_token_counter.tokenizer_config.TOKENIZER_CONFIG
 """
 
 from typing import Mapping, Optional
-
 import tiktoken
+from tiktoken import Encoding
+
 from ai_token_counter.tokenizer_config import TOKENIZER_CONFIG
+
+
+def merge_configs(
+    default: Mapping[str, str],
+    user: Optional[Mapping[str, str]]
+) -> dict[str, str]:
+    """
+    Merge default tokenizer config with user-provided overrides.
+
+    Purpose:
+        Produce a combined alias-to-encoding mapping, where user overrides
+        take precedence over defaults.
+
+    Args:
+        default (Mapping[str, str]): Base mapping of model alias to encoding name.
+        user (Optional[Mapping[str, str]]): Optional user-provided overrides.
+
+    Returns:
+        dict[str, str]: Merged mapping with lowercase keys.
+
+    Side effects:
+        None
+    """
+    merged = {alias.lower(): encoding for alias, encoding in default.items()}
+    if user:
+        for alias, encoding in user.items():
+            merged[alias.lower()] = encoding
+    return merged
 
 
 def resolve_encoding_name(
     model_alias: Optional[str] = None,
     encoding_name: Optional[str] = None,
-    user_config: Optional[Mapping[str, str]] = None,
+    user_config: Optional[Mapping[str, str]] = None
 ) -> str:
     """
     Determine the tiktoken encoding name based on model alias or explicit encoding.
 
+    Purpose:
+        Use explicit encoding_name if provided; otherwise map model_alias
+        via merged default and user configuration.
+
     Args:
-        model_alias: AI model alias (case-insensitive). Priority if encoding_name is None.
-        encoding_name: Explicit tiktoken encoding name (overrides model_alias mapping).
-        user_config: Optional mapping of aliases to encoding names to override defaults.
+        model_alias (Optional[str]): Case-insensitive alias for the AI model.
+        encoding_name (Optional[str]): Explicit tiktoken encoding name.
+        user_config (Optional[Mapping[str, str]]): User-provided alias->encoding mapping.
 
     Returns:
-        The resolved tiktoken encoding name.
+        str: The resolved encoding name.
 
     Raises:
-        ValueError: If neither encoding_name nor model_alias is provided,
-            or if model_alias is unknown in the merged configuration.
+        ValueError: If neither model_alias nor encoding_name is specified,
+                    or if model_alias is not found in the configuration.
+
     Side effects:
         None
-    Assumptions:
-        Default TOKENIZER_CONFIG keys are lowercase. user_config keys should be lowercase.
     """
-    # Merge default and user-provided mappings (user overrides defaults)
-    merged = dict(TOKENIZER_CONFIG)
-    if user_config:
-        merged.update({k.lower(): v for k, v in user_config.items()})
-
-    # Explicit encoding_name has highest priority
+    # Explicit encoding overrides alias
     if encoding_name:
         return encoding_name
 
-    # Require model_alias if encoding_name is not given
     if not model_alias:
-        raise ValueError("Either model_alias or encoding_name must be provided.")
+        raise ValueError("One of `model_alias` or `encoding_name` must be specified.")
 
+    config = merge_configs(TOKENIZER_CONFIG, user_config)
     alias_key = model_alias.lower()
-    if alias_key not in merged:
-        raise ValueError(f"Unknown model alias: '{model_alias}'.")
-
-    return merged[alias_key]
+    try:
+        return config[alias_key]
+    except KeyError as e:
+        # Unknown alias
+        raise ValueError(f"Unknown model alias: {model_alias}") from e
 
 
 def get_tiktoken_encoder(
-    model_alias: Optional[str] = None,
-    encoding_name: Optional[str] = None,
-    user_config: Optional[Mapping[str, str]] = None,
-) -> tiktoken.Encoding:
+    encoding_name: str
+) -> Encoding:
     """
-    Obtain a tiktoken.Encoding instance for tokenization.
+    Retrieve a tiktoken Encoding instance for the given encoding name.
+
+    Purpose:
+        Wrap tiktoken.get_encoding, adding context to errors.
 
     Args:
-        model_alias: AI model alias to resolve encoding name if encoding_name is None.
-        encoding_name: Explicit encoding name to load.
-        user_config: Optional overrides for alias-to-encoding mapping.
+        encoding_name (str): Name of the tiktoken encoding (e.g., 'cl100k_base').
 
     Returns:
-        A tiktoken.Encoding object corresponding to the resolved encoding name.
+        Encoding: The tiktoken encoder object.
 
     Raises:
-        ValueError: If resolution fails or tiktoken cannot load the encoding.
-    Side effects:
-        May raise errors from tiktoken.get_encoding if encoding is invalid.
-    """
-    name = resolve_encoding_name(model_alias, encoding_name, user_config)
-    # Load encoder from tiktoken
-    try:
-        encoder = tiktoken.get_encoding(name)
-    except Exception as e:
-        raise ValueError(f"Failed to load tiktoken encoding '{name}': {e}")
+        ValueError: If the encoding_name is not recognized by tiktoken.
 
-    return encoder
+    Side effects:
+        None
+    """
+    try:
+        return tiktoken.get_encoding(encoding_name)
+    except KeyError as e:
+        # Specific failure when encoding name is not found
+        raise ValueError(
+            f"Failed to load tiktoken encoding '{encoding_name}': {e}"
+        ) from e
+    except Exception as e:
+        # Any other error from tiktoken
+        raise ValueError(
+            f"Failed to load tiktoken encoding '{encoding_name}': {e}"
+        ) from e
