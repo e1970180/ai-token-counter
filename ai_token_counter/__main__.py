@@ -2,7 +2,8 @@
 Module: __main__.py
 
 Purpose:
-    Package entry point for ai_token_counter, enabling execution via `python -m ai_token_counter`.
+    Package entry point for ai_token_counter,
+    enabling execution via `python -m ai_token_counter`.
     Delegates CLI parsing and token counting.
 """
 
