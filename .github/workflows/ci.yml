@@ -12,6 +12,8 @@ on:
     branches:
       - main
 
+  workflow_dispatch:   # <- позволяет запускать вручную из UI
+
 jobs:
   build_and_test:
     # Запуск на Ubuntu
