@@ -23,4 +23,4 @@ TOKENIZER_CONFIG: dict[str, str] = {
     "o200k_base": "o200k_base",  # direct reference
 }
 
-# TODO: Merge with user-provided config in tokenizer_factory to allow overrides
+# T O D O: Merge with user-provided config in tokenizer_factory to allow overrides
