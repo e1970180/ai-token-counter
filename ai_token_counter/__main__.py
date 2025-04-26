@@ -17,14 +17,8 @@ def main() -> None:
     """
     Execute the token counting flow with targeted exception handling.
 
-        Args:
-            None
-
-        Returns:
-            None
-
         Raises:
-            None: unexpected exceptions will propagate and display a full traceback.
+           --- None: unexpected exceptions will propagate and display a full traceback.
 
         Side effects:
             Prints the token count to stdout on success, or an error message to stderr

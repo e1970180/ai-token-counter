@@ -11,9 +11,9 @@ from typing import Optional, Tuple, Union, Mapping
 from pathlib import Path
 import sys
 
-from .file_utils import read_source
-from .tokenizer_factory import resolve_encoding_name
-from .tokenizers.openai import count_tokens_tiktoken
+from ai_token_counter.file_utils import read_source
+from ai_token_counter.tokenizer_factory import resolve_encoding_name
+from ai_token_counter.tokenizers.openai import count_tokens_tiktoken
 
 
 def count_tokens(
