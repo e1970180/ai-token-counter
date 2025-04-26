@@ -43,13 +43,13 @@ def parse_arguments() -> Namespace:
         required=False,
         help="Explicit tiktoken encoding name (overrides model alias mapping).",
     )
-    args = parser.parse_args()
+    parsed_args = parser.parse_args()
 
     # Validate that at least one of model or encoding is provided
-    if not args.model and not args.encoding:
+    if not parsed_args.model and not parsed_args.encoding:
         parser.error("either --model or --encoding must be specified.")
 
-    return args
+    return parsed_args
 
 
 if __name__ == "__main__":
@@ -66,6 +66,9 @@ if __name__ == "__main__":
         )
         # Output only the token count
         print(count)
-    except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
+
+    except (ValueError, FileNotFoundError, UnicodeError, IOError) as err:
+        print(f"Error: {err}", file=sys.stderr)
         sys.exit(1)
+    else:
+        print(count)
