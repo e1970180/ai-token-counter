@@ -2,23 +2,30 @@
 
 Lightweight tool and Python package to count tokens in text using OpenAI-compatible tokenizers.
 
+## Requirements
+
+- Python 3.8+
+- Dependencies listed in `requirements.txt`
+
 ## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/<your-username>/ai-token-counter.git
-   cd ai-token-counter
-   ```
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+# from PyPI
+pip install ai-token-counter
 
-## Usage
+# from source
+git clone https://github.com/your-username/ai-token-counter.git
+cd ai-token-counter
+pip install -r requirements.txt
+pip install .
+```
+
+## Quick Start
 
 ### Command-Line Interface (CLI)
 
 Count tokens in a file:
+
 ```bash
 ai-token-counter --file path/to/input.txt --model gpt-3.5-turbo
 ```
@@ -32,6 +39,8 @@ Explicit encoding override:
 ```bash
 ai-token-counter --file input.txt --encoding cl100k_base
 ```
+
+### Python API
 
 ### Module Usage
 
@@ -66,27 +75,8 @@ pytest
 
 ## Project Structure
 
-```
-ai-token-counter/
-├── ai_token_counter/
-│   ├── __init__.py
-│   ├── cli.py
-│   ├── counter.py
-│   ├── file_utils.py
-│   ├── tokenizer_config.py
-│   ├── tokenizer_factory.py
-│   └── tokenizers/
-│       ├── __init__.py
-│       └── openai.py
-├── tests/
-│   ├── test_counter.py
-│   ├── test_file_utils.py
-│   └── test_tokenizer_factory.py
-├── requirements.txt
-├── .pylintrc
-├── README.md
-└── LICENSE
-```
+
+
 
 ## License
 
