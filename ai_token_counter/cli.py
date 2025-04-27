@@ -4,15 +4,14 @@ Module: cli.py
 Purpose:
     Parse command-line arguments for ai-token-counter CLI.
 
-This module defines argument options and provides a parser for use in __main__.
 """
 
 import argparse
-import sys
-from argparse import Namespace
+#import sys
+#from argparse import Namespace
 
 
-def parse_arguments() -> Namespace:
+def parse_arguments() -> argparse.Namespace:
     """
     Parse CLI arguments for the ai-token-counter tool.
 
@@ -52,23 +51,23 @@ def parse_arguments() -> Namespace:
     return parsed_args
 
 
-if __name__ == "__main__":
-    # Entry point when module is run directly
-    args = parse_arguments()
-    # Delegate main logic to counter module
-    from .counter import count_tokens
+# if __name__ == "__main__":
+#     # Entry point when module is run directly
+#     args = parse_arguments()
+#     # Delegate main logic to counter module
+#     from .counter import count_tokens
 
-    try:
-        count, _ = count_tokens(
-            source=args.file,
-            model_alias=args.model,
-            encoding_name=args.encoding,
-        )
-        # Output only the token count
-        print(count)
+#     try:
+#         count, _ = count_tokens(
+#             source=args.file,
+#             model_alias=args.model,
+#             encoding_name=args.encoding,
+#         )
+#         # Output only the token count
+#         print(count)
 
-    except (ValueError, FileNotFoundError, UnicodeError, IOError) as err:
-        print(f"Error: {err}", file=sys.stderr)
-        sys.exit(1)
-    else:
-        print(count)
+#     except (ValueError, FileNotFoundError, UnicodeError, IOError) as err:
+#         print(f"Error: {err}", file=sys.stderr)
+#         sys.exit(1)
+#     else:
+#         print(count)

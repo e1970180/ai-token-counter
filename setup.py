@@ -22,7 +22,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "ai-token-counter = ai_token_counter.__main__:main",
+            "ai-token-counter = ai_token_counter.main:main",
         ],
     },
     python_requires=">=3.10",
