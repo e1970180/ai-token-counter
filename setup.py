@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="ai-token-counter",
-    version="0.1.0",
+    version="1.0.0",
     author="Alex Pro",
     description="A token counter for AI models utility",
     packages=find_packages(),
