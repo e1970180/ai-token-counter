@@ -44,6 +44,10 @@ jobs:
       - name: Static analysis with Pylint
         run: pylint ai_token_counter
 
-      # Запуск тестов Pytest
       - name: Run tests with Pytest
         run: pytest
+
+      - name: Run coverage
+        run: |
+          coverage run -m pytest
+          coverage report -m --fail-under=90

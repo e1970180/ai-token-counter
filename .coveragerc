@@ -1,0 +1,11 @@
+[run]
+branch = True
+source = ai_token_counter
+
+[report]
+# Исключаем тесты и технические файлы
+omit =
+    tests/*
+    ai_token_counter/tokenizers/__init__.py
+    setup.py
+    .github/*
